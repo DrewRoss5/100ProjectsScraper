@@ -10,7 +10,7 @@ class ProjectList:
         if (req.status_code != 200):
             raise ConnectionError("Cannot retrieve the task list")
         soup = BeautifulSoup(req.content, 'html.parser')
-        # create a list of categories (the first three h3's in the file)
+        # create a list of categories (the first nine h3's in the file)
         self.projects = {}
         self.categories = []
         for i in soup.find_all('h3')[:9]:
