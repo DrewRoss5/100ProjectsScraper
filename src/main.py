@@ -3,7 +3,7 @@ import scraper
 
 # a dicitionary associating shortenings of category names with their 
 FILTER_MAP = {
-                "web": "General Web & Networking Projects",
+                "web": "General Web & Networking Projects",    
                 "bots": "Bots",
                 "apps": "Software & Apps",
                 "ai": "Artificial Intelligence",
@@ -13,6 +13,18 @@ FILTER_MAP = {
                 "misc": "Miscellaneous",
                 "challenge": "Coding Challenges"
               }
+
+# parses shortened filters and returns the whole filtered names
+def parse_categories(args) -> list[str]:
+        # parse allowed categories
+        categories = []
+        for i in args:
+            if i not in FILTER_MAP:
+                print(f'Error: Unrecognized category: "{i}"')
+                exit(-1)
+            else:
+                categories.append(FILTER_MAP[i])
+        return categories
 
 # initalize the project list
 try:
@@ -46,15 +58,28 @@ match command:
         rand_projects = projects.get_random(project_count)
         projects.display(rand_projects)
     
+    case 'random-filtered':
+        # ensure at least on argument was passed
+        if len(args) < 2:
+            print("Error - please provide at least one argument")
+            exit(-1)
+        # determine if a number of projects to get was provided
+        if args[1].isdigit() and int(args[1])  >= 1:
+            project_count = int(args[1])
+            start_index = 2
+        else:
+            project_count = 1
+            start_index = 1
+        # filter the possible categories
+        categories = parse_categories(args[start_index:])
+        projects.filter_categories(categories)
+        # get and display the random projects
+        rand_projects = projects.get_random(project_count)
+        projects.display(rand_projects)
+
+
     case 'view-filtered':
-        # parse allowed categories
-        categories = []
-        for i in args[1:]:
-            if i not in FILTER_MAP:
-                print(f'Error: Unrecognized category: "{i}"')
-                exit(-1)
-            else:
-                categories.append(FILTER_MAP[i])
+        categories = parse_categories(args[1:])
         projects.filter_categories(categories)
         projects.display()
     
