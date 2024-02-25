@@ -31,3 +31,6 @@ This command displays only projects of certain provided categories. The categori
 
 ### random \[project_count]:
 Displays `project_count` random projects from any category. If no project_count is provided, one random project will be generated.
+
+### random-filtered \[project_count OPTIONAL] \[categories]:
+Displays `project_count` random projects from provided categories. Providing a project count is optional, if no project count is provided, one random project will be selected. Categories follow the formatting of `view-filtered`
