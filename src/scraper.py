@@ -10,7 +10,7 @@ class ProjectList:
         if (req.status_code != 200):
             raise ConnectionError("Cannot retrieve the task list")
         soup = BeautifulSoup(req.content, 'html.parser')
-        # create a list of categories (the first nine h3's in the file)
+        # create a list of categories (the first three h3's in the file)
         self.projects = {}
         self.categories = []
         for i in soup.find_all('h3')[:9]:
@@ -33,23 +33,27 @@ class ProjectList:
     # get n random projects from the dictionary, projects are returned as a dictionary using project categories as keys
     def get_random(self, n: int) -> dict[str, str]:
         project_dict = {}
-        selected = []
         for i in range(n):
             category = random.choice(self.categories)
             project = random.choice(self.projects[category])
-            while project in selected:
-                    project = random.choice(self.projects[category])
             if category in project_dict:
                 project_dict[category].append(project)
+                self.delete_project(project, category)
             else:
-                project_dict[category] = [random.choice(self.projects[category])]
-                selected.append(project)
+                project_dict[category] = [project]
+                self.delete_project(project, category)
         return project_dict
 
+    # removes a project from the dictionary, and deletes the category if it's empty
+    def delete_project(self, project: str, category: str) -> None:
+        self.projects[category].remove(project)
+        if len(self.projects[category]) == 0:
+            del self.projects[category]
+            self.categories.remove(category)
+        
     # removes all categories other than the ones specified
     def filter_categories(self, new_categories: list[str]):
         for i in self.categories:
             if i not in new_categories:
                 del self.projects[i]
         self.categories = new_categories
-
