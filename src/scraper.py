@@ -22,7 +22,7 @@ class ProjectList:
                 self.projects[self.categories[i]].append(project.text)
 
     # prints all projects in a dictionary with indented formatting, if no dictionary is provided, this will default to all projecs
-    def display(self, project_dict = None):
+    def display(self, project_dict: dict[str, str] = None):
         if not project_dict:
             project_dict = self.projects
         for i in project_dict:
@@ -31,7 +31,7 @@ class ProjectList:
                 print(f'\t{project}')
 
     # get n random projects from the dictionary, projects are returned as a dictionary using project categories as keys
-    def get_random(self, n: int):
+    def get_random(self, n: int) -> dict[str, str]:
         project_dict = {}
         for i in range(n):
             category = random.choice(self.categories)
@@ -40,3 +40,11 @@ class ProjectList:
             else:
                 project_dict[category] = [random.choice(self.projects[category])]
         return project_dict
+
+    # removes all categories other than the ones specified
+    def filter_categories(self, new_categories: list[str]):
+        for i in self.categories:
+            if i not in new_categories:
+                del self.projects[i]
+        self.categories = new_categories
+
