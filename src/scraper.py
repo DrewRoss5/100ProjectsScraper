@@ -33,10 +33,15 @@ class ProjectList:
     # get n random projects from the dictionary, projects are returned as a dictionary using project categories as keys
     def get_random(self, n: int) -> dict[str, str]:
         project_dict = {}
+        selected = []
         for i in range(n):
             category = random.choice(self.categories)
             if category in project_dict:
-                project_dict[category].append(random.choice(self.projects[category]))
+                project = random.choice(self.projects[category])
+                while project in selected:
+                    project = random.choice(self.projects[category])
+                project_dict[category].append(project)
+                selected.append(project)
             else:
                 project_dict[category] = [random.choice(self.projects[category])]
         return project_dict
