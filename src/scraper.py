@@ -36,14 +36,14 @@ class ProjectList:
         selected = []
         for i in range(n):
             category = random.choice(self.categories)
-            if category in project_dict:
-                project = random.choice(self.projects[category])
-                while project in selected:
+            project = random.choice(self.projects[category])
+            while project in selected:
                     project = random.choice(self.projects[category])
+            if category in project_dict:
                 project_dict[category].append(project)
-                selected.append(project)
             else:
                 project_dict[category] = [random.choice(self.projects[category])]
+                selected.append(project)
         return project_dict
 
     # removes all categories other than the ones specified
