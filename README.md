@@ -3,10 +3,7 @@ A webscraper for <a href="https://github.com/arpit-omprakash/100ProjectsOfCode" 
 
 # Roadmap:
 <ul>
-  <li>Create documentation</li>
-  <li>Allow filtering random projects by category</li>
-  <li>Add a "help" command</li>
-  <li>Add project descriptions</li>
+  <li>Add project descriptions/tutorials</li>
 </ul>
 
 ## Installation:
