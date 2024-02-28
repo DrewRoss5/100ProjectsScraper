@@ -1,6 +1,15 @@
 import sys
 import scraper
 
+# a dictionary associating commands with their paramters and descriptions
+COMMAND_DICT = {
+    "view": ["", "Displays all project ideas"],
+    "view-filtered": ["allowed_categories", "Displays all projects within provided categories see https://github.com/DrewRoss5/100ProjectsScraper/blob/main/README.md for filters"],
+    "random": ["project_count OPTIONAL", "Selects a provided number of random projects from all categories. If no count is provided, one random task will be selected"],
+    "random-filtered": ["project_count OPTIONAL, allowed_categories", "Selects a provided number of random projects from the provided categories. If no count is provided, one random task will be selected"],
+
+}
+
 # a dicitionary associating shortenings of category names with their 
 FILTER_MAP = {
                 "web": "General Web & Networking Projects",    
@@ -25,6 +34,13 @@ def parse_categories(args) -> list[str]:
             else:
                 categories.append(FILTER_MAP[i])
         return categories
+
+# prints a list of cammands and their parameters
+def print_help():
+    print(f'{"Command:".ljust(20)}{"Parameters:".ljust(45)}{"Description:"}\n') 
+    for i in COMMAND_DICT:
+       project_info = COMMAND_DICT[i]
+       print(f'{i.ljust(20)}{project_info[0].ljust(45)}{project_info[1]}') 
 
 # initalize the project list
 try:
@@ -86,5 +102,10 @@ match command:
     case 'view':
         projects.display()
         
+    case 'help':
+        print_help()
+    
     case _:
-        print(f'Error - "{command}" is not a recognized command.')
+        print(f'Unrecognized Command "{command}"\nAvailable Commands:')
+        print_help()
+        
